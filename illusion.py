@@ -12,7 +12,6 @@ def give_move(xball, yball, xcenter, ycenter, deg):
     return (math.cos(math.radians(deg))*RAD - xball) + xcenter, (math.sin(math.radians(deg))*RAD - yball) + ycenter
 
 if __name__ == "__main__":
-    speed = float(sys.argv[1])
     tk = Tk()
     canvas = Canvas(tk, width=WIDTH, height=HEIGHT)
     tk.title("illusion")
