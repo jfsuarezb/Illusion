@@ -9,7 +9,8 @@ WIDTH = 800
 HEIGHT = 800
 
 def give_move(xball, yball, xcenter, ycenter, deg):
-    return (math.cos(math.radians(deg))*RAD - xball) + xcenter, (math.sin(math.radians(deg))*RAD - yball) + ycenter
+    rad = math.sqrt((xcenter-xball)**2 + (ycenter-yball)**2)
+    return (math.cos(math.radians(deg))*rad - xball) + xcenter, (math.sin(math.radians(deg))*rad - yball) + ycenter
 
 def allow_move(allow, ball, deg):
     if allow:
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     tk.title("illusion")
     canvas.pack()
     center_point = canvas.create_oval(400, 400, 405, 405, fill="black")
-    ballarray = [canvas.create_oval(400, 10, 420, 30, fill="gray30"), canvas.create_oval(10, 400, 30, 420, fill="gray70")]
+    ballarray = [canvas.create_oval(400, 30, 420, 50, fill="gray30"), canvas.create_oval(10, 400, 30, 420, fill="gray70")]
     ballinfoarray = [[30, 2, 0], [70,2, 270]]
     deg = 0
     outdegchange = 0.5
@@ -33,6 +34,7 @@ if __name__ == "__main__":
     start_time = time.time()
     outmove = True
     while True:
+        
         elapsed_time = time.time() - start_time
         if (int(round(elapsed_time)) - (int(round(elapsed_time)) % 5)) % 2 == 0:
             outmove = True
@@ -44,6 +46,7 @@ if __name__ == "__main__":
         degchange = outdegchange
         if deg == 360:
             deg = 0
+        
         for index in range(0, len(ballarray)):
             
             if ballinfoarray[index][0] == 98 or ballinfoarray[index][0] == 10:
@@ -55,6 +58,7 @@ if __name__ == "__main__":
                 ballinfoarray[index][2] = 0
             allow_move(move, ballarray[index], ballinfoarray[index][2])
             ballinfoarray[index][2] = ballinfoarray[index][2] + degchange
+        
         tk.update()
         deg = deg + degchange
     tk.mainloop()
