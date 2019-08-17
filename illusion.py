@@ -41,8 +41,6 @@ if __name__ == "__main__":
             outmove = False
             outdegchange = 0
         move = outmove
-        if i == 99 or i == 9:
-            j = -j
         if deg == 360:
             deg = 0
         for index in range(0, len(ballarray)):
@@ -56,5 +54,4 @@ if __name__ == "__main__":
         tk.update()
         degchange = outdegchange
         deg = deg + degchange
-        i = i+j
     tk.mainloop()
