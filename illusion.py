@@ -26,8 +26,9 @@ if __name__ == "__main__":
     ballinfoarray = []
     deliniation = canvas.create_oval(90,90,WIDTH-90,HEIGHT-90,fill="")
     for x in balls.info:
+        balldegree = math.degrees(math.atan((400 - x[0])/(400 - x[1])))
         ballarray.append(canvas.create_oval(x[0],x[1],x[0]+20,x[1]+20,fill="gray"+str(x[2])))
-        ballinfoarray.append([x[2],x[3],x[4]])
+        ballinfoarray.append([x[2],x[3],balldegree])
     center_point = canvas.create_oval(400, 400, 405, 405, fill="black")
     deg = 0
     outdegchange = 0.5
