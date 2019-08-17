@@ -1,10 +1,8 @@
 from tkinter import *
-import random
 import time
 import math
-import sys
+import balls
 
-RAD = 350
 WIDTH = 800
 HEIGHT = 800
 
@@ -24,9 +22,13 @@ if __name__ == "__main__":
     canvas = Canvas(tk, bg="gray50", width=WIDTH, height=HEIGHT)
     tk.title("illusion")
     canvas.pack()
+    ballarray = []
+    ballinfoarray = []
+    deliniation = canvas.create_oval(90,90,WIDTH-90,HEIGHT-90,fill="")
+    for x in balls.info:
+        ballarray.append(canvas.create_oval(x[0],x[1],x[0]+20,x[1]+20,fill="gray"+str(x[2])))
+        ballinfoarray.append([x[2],x[3],x[4]])
     center_point = canvas.create_oval(400, 400, 405, 405, fill="black")
-    ballarray = [canvas.create_oval(400, 30, 420, 50, fill="gray30"), canvas.create_oval(10, 400, 30, 420, fill="gray70")]
-    ballinfoarray = [[30, 2, 0], [70,2, 270]]
     deg = 0
     outdegchange = 0.5
     i = 11
