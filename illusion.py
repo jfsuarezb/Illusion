@@ -7,7 +7,7 @@ import random
 
 WIDTH = 800
 HEIGHT = 800
-colorRange = (30,60)
+colorRange = (10,40)
 colorSpeed = 1
 MoveSpeed = 2.5
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         if x[0] < 400 and x[1] > 400:
             balldegree = balldegree + 180
         ballcolor = random.randint(colorRange[0],colorRange[1])
-        ballarray.append(canvas.create_oval(x[0],x[1],x[0]+20,x[1]+20,fill="gray"+str(ballcolor)))
+        ballarray.append(canvas.create_oval(x[0],x[1],x[0]+20,x[1]+20,fill="gray"+str(ballcolor),width=0))
         ballinfoarray.append([ballcolor,colorSpeed,balldegree])
     center_point = canvas.create_oval(400, 400, 405, 405, fill="black")
     deg = 0
@@ -51,7 +51,12 @@ if __name__ == "__main__":
         elapsed_time = time.time() - start_time
         if (int(round(elapsed_time)) - (int(round(elapsed_time)) % 5)) % 2 == 0:
             outmove = True
-            outdegchange = MoveSpeed
+            print(elapsed_time - int(round(elapsed_time)))
+            if elapsed_time - int(round(elapsed_time)) > 0:
+                print(elapsed_time - int(round(elapsed_time)))
+                outdegchange = -MoveSpeed
+            else:
+                outdegchange = MoveSpeed
         else:
             outmove = False
             outdegchange = 0
@@ -62,10 +67,11 @@ if __name__ == "__main__":
         
         for index in range(0, len(ballarray)):
             
-            if ballinfoarray[index][0] >= colorRange[1] or ballinfoarray[index][0] <= colorRange[0]:
-                ballinfoarray[index][1] = -ballinfoarray[index][1]
-            canvas.itemconfig(ballarray[index], fill="gray"+str(ballinfoarray[index][0]))
-            ballinfoarray[index][0] = ballinfoarray[index][0] + ballinfoarray[index][1]
+            if i % 2 == 0:
+                if ballinfoarray[index][0] >= colorRange[1] or ballinfoarray[index][0] <= colorRange[0]:
+                    ballinfoarray[index][1] = -ballinfoarray[index][1]
+                canvas.itemconfig(ballarray[index], fill="gray"+str(ballinfoarray[index][0]))
+                ballinfoarray[index][0] = ballinfoarray[index][0] + ballinfoarray[index][1]
 
             if ballinfoarray[index][2] == 360:
                 ballinfoarray[index][2] = 0
