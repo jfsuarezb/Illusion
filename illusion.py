@@ -51,9 +51,7 @@ if __name__ == "__main__":
         elapsed_time = time.time() - start_time
         if (int(round(elapsed_time)) - (int(round(elapsed_time)) % 5)) % 2 == 0:
             outmove = True
-            print(elapsed_time - int(round(elapsed_time)))
             if elapsed_time - int(round(elapsed_time)) > 0:
-                print(elapsed_time - int(round(elapsed_time)))
                 outdegchange = -MoveSpeed
             else:
                 outdegchange = MoveSpeed
