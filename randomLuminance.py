@@ -70,7 +70,7 @@ if __name__ == "__main__":
                 if ballinfoarray[index][0] >= colorRange[1] or ballinfoarray[index][0] <= colorRange[0]:
                     ballinfoarray[index][1] = -ballinfoarray[index][1]
                 canvas.itemconfig(ballarray[index], fill="gray"+str(ballinfoarray[index][0]))
-                ballinfoarray[index][0] = ballinfoarray[index][0] + ballinfoarray[index][1]
+                ballinfoarray[index][0] = random.randint(colorRange[0],colorRange[1])
 
             if ballinfoarray[index][2] == 360:
                 ballinfoarray[index][2] = 0
