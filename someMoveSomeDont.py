@@ -39,7 +39,7 @@ if __name__ == "__main__":
             balldegree = balldegree + 180
         ballcolor = random.randint(colorRange[0],colorRange[1])
         ballarray.append(canvas.create_oval(x[0],x[1],x[0]+20,x[1]+20,fill="gray"+str(ballcolor),width=0))
-        ballinfoarray.append([ballcolor,colorSpeed,balldegree])
+        ballinfoarray.append([ballcolor,colorSpeed,balldegree,random.randint(0,1)])
     center_point = canvas.create_oval(400, 400, 405, 405, fill="black")
     deg = 0
     outdegchange = MoveSpeed
@@ -60,18 +60,20 @@ if __name__ == "__main__":
             outdegchange = 0
         move = outmove
         degchange = outdegchange
+        
         for index in range(0, len(ballarray)):
             
             if i % 2 == 0:
                 if ballinfoarray[index][0] >= colorRange[1] or ballinfoarray[index][0] <= colorRange[0]:
                     ballinfoarray[index][1] = -ballinfoarray[index][1]
                 canvas.itemconfig(ballarray[index], fill="gray"+str(ballinfoarray[index][0]))
-                ballinfoarray[index][0] = random.randint(colorRange[0],colorRange[1])
+                ballinfoarray[index][0] = ballinfoarray[index][0] + ballinfoarray[index][1]
 
-            if ballinfoarray[index][2] == 360:
-                ballinfoarray[index][2] = 0
-            allow_move(move, ballarray[index], ballinfoarray[index][2])
-            ballinfoarray[index][2] = ballinfoarray[index][2] + degchange
+            if ballinfoarray[index][3] == 1:
+                if ballinfoarray[index][2] == 360:
+                    ballinfoarray[index][2] = 0
+                allow_move(move, ballarray[index], ballinfoarray[index][2])
+                ballinfoarray[index][2] = ballinfoarray[index][2] + degchange
         
         tk.update()
     tk.mainloop()

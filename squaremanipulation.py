@@ -2,7 +2,7 @@ from __future__ import division
 from tkinter import *
 import time
 import math
-import balls
+import squarearrangement
 import random
 
 WIDTH = 800
@@ -29,17 +29,28 @@ if __name__ == "__main__":
     canvas.pack()
     ballarray = []
     ballinfoarray = []
-    for x in balls.info:
-        balldegree = math.degrees(math.atan(abs(400 - x[0])/abs(400 - x[1])))
-        if x[0] < 400 and x[1] < 400:
-            balldegree = balldegree + 270
-        if x[0] > 400 and x[1] > 400:
-            balldegree = balldegree + 90
-        if x[0] < 400 and x[1] > 400:
-            balldegree = balldegree + 180
+    for x in squarearrangement.info:
+        movementState = 0
+        if x[1] < 100:
+            movementState = 0
+        if x[0] > 700:
+            movementState = 1
+        if x[1] > 700:
+            movementState = 2
+        if x[0] < 100:
+            movementState = 3
         ballcolor = random.randint(colorRange[0],colorRange[1])
         ballarray.append(canvas.create_oval(x[0],x[1],x[0]+20,x[1]+20,fill="gray"+str(ballcolor),width=0))
-        ballinfoarray.append([ballcolor,colorSpeed,balldegree])
+        offset = 0
+        if movementState == 0:
+            offset = 100 - x[1]
+        elif movementState == 1:
+            offset = x[0] - 700
+        elif movementState == 2:
+            offset = x[1] - 700
+        elif movementState == 3:
+            offset = 100 - x[0]
+        ballinfoarray.append([ballcolor,colorSpeed,movementState, offset])
     center_point = canvas.create_oval(400, 400, 405, 405, fill="black")
     deg = 0
     outdegchange = MoveSpeed
@@ -64,15 +75,34 @@ if __name__ == "__main__":
         for index in range(0, len(ballarray)):
             
             if i % 2 == 0:
+                
                 if ballinfoarray[index][0] >= colorRange[1] or ballinfoarray[index][0] <= colorRange[0]:
                     ballinfoarray[index][1] = -ballinfoarray[index][1]
                 canvas.itemconfig(ballarray[index], fill="gray"+str(ballinfoarray[index][0]))
                 ballinfoarray[index][0] = ballinfoarray[index][0] + ballinfoarray[index][1]
 
-            if ballinfoarray[index][2] == 360:
-                ballinfoarray[index][2] = 0
-            allow_move(move, ballarray[index], ballinfoarray[index][2])
-            ballinfoarray[index][2] = ballinfoarray[index][2] + degchange
-        
+                if ballinfoarray[index][2] == 0:
+                    if canvas.coords(ballarray[index])[0] > 700 + ballinfoarray[index][3]:
+                        ballinfoarray[index][2] = 1
+                elif ballinfoarray[index][2] == 1:
+                    if canvas.coords(ballarray[index])[1] > 700 + ballinfoarray[index][3]:
+                        ballinfoarray[index][2] = 2
+                elif ballinfoarray[index][2] == 2:
+                    if canvas.coords(ballarray[index])[0] < 100 - ballinfoarray[index][3]:
+                        ballinfoarray[index][2] = 3
+                elif ballinfoarray[index][2] == 3:
+                    if canvas.coords(ballarray[index])[1] < 100 - ballinfoarray[index][3]:
+                        ballinfoarray[index][2] = 0
+
+                if move:
+                    if ballinfoarray[index][2] == 0:
+                        canvas.move(ballarray[index],MoveSpeed,0)
+                    elif ballinfoarray[index][2] == 1:
+                        canvas.move(ballarray[index],0,MoveSpeed)
+                    elif ballinfoarray[index][2] == 2:
+                        canvas.move(ballarray[index],-MoveSpeed,0)
+                    elif ballinfoarray[index][2] == 3:
+                        canvas.move(ballarray[index],0,-MoveSpeed)
+     
         tk.update()
     tk.mainloop()
